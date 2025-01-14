@@ -1,0 +1,41 @@
+.TH "etymology-cli" "1" "January 2025" "etymology" "User Commands"
+.SH NAME
+etymology-cli \- fetch the etymological meaning of words
+.SH SYNOPSIS
+.B etymology
+[\fI\,OPTIONS\/\fR] <word>
+.SH DESCRIPTION
+The \fBetymology\fR command is a Python script that scrapes and retrieves the etymological meaning of words from the Etymonline database 
+(\fBhttps://www.etymonline.com/\fR).
+
+.SH OPTIONS
+.TP
+.B \-a, \-\-all-syntax
+Return the meaning for the word considering all lexical categories: verb, noun, and adjective.
+.TP
+.B \-v, \-\-verb
+Return the meaning for the word considering only verb results.
+.TP
+.B \-n, \-\-noun
+Return the meaning for the word considering only noun results.
+.TP
+.B \-adj, \-\-adjective
+Return the meaning for the word considering only adjective results.
+
+.SH EXAMPLES
+.TP
+Fetch the meaning of the word "apple" for all lexical categories:
+.EX
+etymology --all-syntax apple
+.EE
+
+.TP
+Fetch the meaning of the word "run" for verbs only:
+.EX
+etymology --verb run
+.EE
+
+.SH SEE ALSO
+curl(1), python(1)
+.SH AUTHOR
+Developed by Uriel
