@@ -43,11 +43,10 @@ def all_syntaxes_(word, aux):
             etymology_tittles[i] = 'noun'
         elif etymology_tittles[i] == 'adj':
             etymology_tittles[i] = 'adjective'
+        elif etymology_tittles[i] == 'adv':
+            etymology_tittles[i] = 'adverb'
 
-            
-        #meaning_rows.append({'category' : etymology_tittles[i], 'meaning': etymology_meanings[i]})
-
-        meanings += f"{etymology_tittles[i]} - {etymology_meanings[i]} \n\n"
+        meanings += f"\n{etymology_tittles[i]} - {etymology_meanings[i]}\n"
 
     if aux:
         return meaning_rows
@@ -66,7 +65,7 @@ def noun_search_(word):
     for result in search_results:
         if result['category'] == 'n':
             #nouns.append(result['meaning'])
-            nouns += f"{result['meaning']} \n\n"
+            nouns += f"\n{result['meaning']}\n"
     if nouns == '':
         return "no results"
 
@@ -84,7 +83,7 @@ def verb_search_(word):
 
     for result in search_results:
         if result['category'] == 'v':
-            verbs += f"{result['meaning']} \n\n"
+            verbs += f"\n{result['meaning']} \n"
 
     if verbs == '':
         return 'no results'
@@ -102,23 +101,43 @@ def adjective_search_(word):
 
     for result in search_results:
         if result['category'] == 'adj':
-            adjectives += f"{result['meaning']} \n\n"
+            adjectives += f"\n{result['meaning']}\n"
 
     if adjectives == '':
         return 'no results'
 
     return adjectives
 
+def adverb_search_(word):
+    search_results = all_syntaxes_(word, True)
+    #if "error" in search_results:
+    #   return search_results
+    if search_results == 'no results':
+        return 'no results'
+
+    adverbs = ''
+
+    for result in search_results:
+        if result['category'] == 'adv':
+            adverbs += f"\n{result['meaning']}\n"
+
+    if adverbs == '':
+        return 'no results'
+
+    return adverbs
+
 if __name__ == "__main__":
     if len(sys.argv) > 2:
-        if sys.argv[1] == "--all-syntax" or "-a":
+        if sys.argv[1] == "--all-syntax" or sys.argv[1] == '-a':
             print(all_syntaxes_(sys.argv[2], False))
-        elif sys.argv[1] == "--noun" or '-n':
+        elif sys.argv[1] == "--noun" or sys.argv[1] == '-n':
             print(noun_search_(sys.argv[2]))
-        elif sys.argv[1] == "--verb" or '-v':
+        elif sys.argv[1] == "--verb" or sys.argv[1] == '-v':
             print(verb_search_(sys.argv[2]))
-        elif sys.argv[1] == "--adjective" or '-adj':
+        elif sys.argv[1] == "--adjective" or sys.argv[1] == '-adj':
             print(adjective_search_(sys.argv[2]))
+        elif sys.argv[1] == "--adverb" or sys.argv[1] == '-adv':
+            print(adverb_search_(sys.argv[2]))
         else:
             print("Invalid option.")
     else:
