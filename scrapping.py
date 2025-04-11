@@ -1,22 +1,29 @@
 #!/usr/bin/env python3
 
 from urllib.request import urlopen
+from urllib.request import Request
 from bs4 import BeautifulSoup
 import sys
 
 def all_syntaxes_(word, aux):
 
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
     url = f"https://www.etymonline.com/word/{word}#etymonline_v_25849"
+
+    req = Request(url, headers=headers)
+
     try:
-        html = urlopen(url)
+        html = urlopen(req)
     except:
         return 'no results'
     soup = BeautifulSoup(html, 'lxml')
 
-    word_etymology = soup.find_all('section', {"class" : "word__defination--2q7ZH"})
+    word_etymology = soup.find_all('section', {"class" : "-mt-4 -mb-2 lg:-mb-2"})
     etymology_tittles = []
-    etymology_tittles.append(soup.find('h1', {"class" : "word__name--TTbAA"}))
-    etymology_tittles.extend(soup.find_all('p', {"class" : "word__name--TTbAA"}))
+    etymology_tittles.extend(soup.find_all('span', {"class" : "pl-2 text-battleship-gray font-serif text-2xl mobile:text-xl"}))
     etymology_meanings = []
 
     for etymology_meaning in word_etymology:
@@ -55,8 +62,6 @@ def all_syntaxes_(word, aux):
 
 def noun_search_(word):
     search_results = all_syntaxes_(word, True)
-#    if "error" in search_results:
-#        return search_results
     if search_results == 'no results':
         return 'no results'
 
@@ -64,7 +69,6 @@ def noun_search_(word):
 
     for result in search_results:
         if result['category'] == 'n':
-            #nouns.append(result['meaning'])
             nouns += f"\n{result['meaning']}\n"
     if nouns == '':
         return "no results"
@@ -73,8 +77,6 @@ def noun_search_(word):
 
 def verb_search_(word):
     search_results = all_syntaxes_(word, True)
-#    if "error" in search_results:
-#        return search_results
     if search_results == 'no results':
         return 'no results'
 
@@ -92,8 +94,6 @@ def verb_search_(word):
 
 def adjective_search_(word):
     search_results = all_syntaxes_(word, True)
-    #if "error" in search_results:
-    #   return search_results
     if search_results == 'no results':
         return 'no results'
 
@@ -110,8 +110,6 @@ def adjective_search_(word):
 
 def adverb_search_(word):
     search_results = all_syntaxes_(word, True)
-    #if "error" in search_results:
-    #   return search_results
     if search_results == 'no results':
         return 'no results'
 
